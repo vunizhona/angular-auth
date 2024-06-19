@@ -1,0 +1,7 @@
+<nav>
+  <ul>
+    <li *ngIf="!isAuthenticated"><a routerLink="auth">Login/Register</a> </li>
+    <li *ngIf="isAuthenticated"><a routerLink="quotes">Quotes</a></li>
+    <li *ngIf="isAuthenticated" (click)="logout()">Logout</li>
+  </ul>
+</nav>
