@@ -27,7 +27,7 @@ export class QuotesComponent implements OnInit {
     if(this.newQuoteContent.trim()){
       this.quotesService.addQuote(this.newQuoteContent).subscribe(res => {
         console.log(res);
-        this.quotes?.push(res?.quote.)
+        this.quotes?.push(res?.quote)
         this.newQuoteContent = '';
       })
     }
