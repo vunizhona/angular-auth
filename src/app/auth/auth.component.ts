@@ -40,6 +40,7 @@ export class AuthComponent implements OnDestroy {
     if(this.isLoginMode){
       this.authService.login(email, password).subscribe({next: response => {
         this.loading = false;
+        this.authService.autoLogout(3600)
         this.router.navigate(["/quotes"])
         }, error: (error: HttpErrorResponse) => {
         this.loading = false;
@@ -48,6 +49,7 @@ export class AuthComponent implements OnDestroy {
     } else {
       this.authService.signup(email, password).subscribe({next: response => {
           this.loading = false;
+          this.authService.autoLogout(3600)
           this.router.navigate(["/quotes"])
         }, error: (error: HttpErrorResponse) => {
           this.loading = false;

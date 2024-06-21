@@ -13,6 +13,7 @@ export interface User {
 })
 export class AuthService {
   userSubject = new BehaviorSubject<User | null>(null);
+  private tokenExpirationTime: number | undefined
 
   get user(){
     return this.userSubject.asObservable();
@@ -21,7 +22,6 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   signup(email: string, password: string){
-    console.log(password);
     return this.http.post<User>('http://localhost:3000/signup', {email, password}).pipe(tap(response => {
       this.handleAuthentication(response.email, response.token);
     }))
@@ -39,12 +39,22 @@ export class AuthService {
       return
     }
     this.userSubject.next(userData);
+    this.autoLogout(3600)
   }
 
   logout(){
     this.userSubject.next(null);
     localStorage.removeItem('userData');
+    if(this.tokenExpirationTime){
+      clearInterval(this.tokenExpirationTime);
+    }
     this.router.navigate(['/auth']);
+  }
+
+  autoLogout(expirationDuration: number){
+    this.tokenExpirationTime = setTimeout(() => {
+      this.logout()
+    }, expirationDuration);
   }
 
 

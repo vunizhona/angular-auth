@@ -1,1 +1,12 @@
-<p>quotes works!</p>
+<div>
+  <h2>User Quotes</h2>
+  <ul>
+    <li *ngFor="let quote of quotes">{{quote.content}}</li>
+    <div *ngIf="!quotes || !quotes.length">No quotes added!</div>
+  </ul>
+  <div>
+    <h3>Add new quote</h3>
+    <input placeholder="New Quote" [(ngModel)]="newQuoteContent">
+    <button (click)="onAddQuote()" >Add Quote</button>
+  </div>
+</div>
